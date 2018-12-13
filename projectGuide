@@ -1,0 +1,46 @@
+#### Dependencies
+
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    
+
+#### build-gradle
+ buildTypes {
+        debug{
+            buildConfigField('String','BASE_URL','https://jsonplaceholder.typicode.com/')
+        }
+        release {
+            buildConfigField('String','BASE_URL','https://jsonplaceholder.typicode.com/')
+        }
+    }
+    
+    #### This is sample constructor model  holder
+         class List_Holder(
+    @field:SerializedName("albumId")
+    var albumId: Int, @field:SerializedName("id")
+    var id: Int, @field:SerializedName("url")
+    var url: String, @field:SerializedName("title")
+    var title: String, @field:SerializedName("thumbnailUrl")
+    var thumbnailUrl: String
+)
+
+### Api Interfainterface Api {
+    
+    @GET("photos")
+     fun getGetLists(): Call<List<List_Holder>>
+}
+
+### Network Call on main activity
+
+ NetworkUtils().getApiService()?.create(Api::class.java)!!.getGetLists().enqueue(object : Callback<List<List_Holder>> {
+            override fun onFailure(call: Call<List<List_Holder>>, t: Throwable) {
+                Toast.makeText(this@MainActivity,""+t.message,Toast.LENGTH_LONG).show()
+            }
+            override fun onResponse(call: Call<List<List_Holder>>, response: Response<List<List_Holder>>) {
+                Toast.makeText(this@MainActivity,""+response,Toast.LENGTH_LONG).show()
+            }
+
+        })
