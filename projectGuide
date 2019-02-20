@@ -35,6 +35,22 @@
 
 ### Network Call on main activity
 
+
+class NetworkUtils {
+    fun getApiService():Retrofit?{
+        val retrofit = Retrofit.Builder()
+        val httpClient = OkHttpClient.Builder()
+
+        retrofit.baseUrl(BuildConfig.BASE_URL)
+            .client(httpClient.build())
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+
+        return retrofit.build()
+    }
+}
+
  NetworkUtils().getApiService()?.create(Api::class.java)!!.getGetLists().enqueue(object : Callback<List<List_Holder>> {
             override fun onFailure(call: Call<List<List_Holder>>, t: Throwable) {
                 Toast.makeText(this@MainActivity,""+t.message,Toast.LENGTH_LONG).show()
